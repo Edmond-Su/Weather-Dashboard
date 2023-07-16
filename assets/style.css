@@ -19,11 +19,39 @@ main {
 }
 
 #searchBtn {
+    margin-top: 5px;
     width: 100%;
 }
 
-.currentSection {
+#currentSection {
     border-style: solid;
     border: 5px;
+    padding: 5px 10px;
     visibility: hidden;
+}
+
+#searchHistoryList {
+    list-style: none;
+}
+
+.historyItem {
+    width: 100%;
+    margin: 2px 0;
+}
+
+button {
+    border-radius: 5px;
+}
+
+#currentWeatherList {
+    list-style-type: none;
+}
+
+.forecastCard {
+    padding-top: 10px;
+    border-style: solid;
+    border-radius: 5px;
+    margin: 0 2px;
+    background-color: rgb(23, 23, 87);
+    color: white;
 }
