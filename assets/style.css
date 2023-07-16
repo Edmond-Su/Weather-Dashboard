@@ -1,0 +1,29 @@
+header {
+    text-align: center;
+    padding: 10px 0;
+    background-color: darkblue;
+    background-image: linear-gradient(to right, rgb(62, 62, 216), rgb(0, 0, 110));
+    color: white;
+}
+
+aside {
+    padding-top: 10px;
+}
+
+main {
+    padding-top: 10px;
+}
+
+#citySearch {
+    width: 100%;
+}
+
+#searchBtn {
+    width: 100%;
+}
+
+.currentSection {
+    border-style: solid;
+    border: 5px;
+    visibility: hidden;
+}
