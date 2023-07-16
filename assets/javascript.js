@@ -23,7 +23,6 @@ const init = () => {
 const searchHandler = () => {
     const cityName = searchInputEl.value;
     cityNameEl.innerHTML = cityName;
-    console.log(cityName);
     apiFetchCurrent(cityName)
     apiFetchForecast(cityName);
 }
@@ -62,7 +61,6 @@ const apiFetchCurrent = (city) => {
             return response.json()
         })
         .then((data) => {
-            console.log(data)
             displayCurrentWeather(data)
         })
 }
@@ -70,14 +68,12 @@ const apiFetchCurrent = (city) => {
 
 const apiFetchForecast = (city) => {
     const apiURL = 'https://api.openweathermap.org/data/2.5/forecast?q=' + city + '&appid=' + key + '&units=metric';
-    console.log(apiURL);
     updateHistory(city);
     fetch(apiURL)
         .then((response) => {
             return response.json()
         })
         .then((data) => {
-            console.log(data)
             displayForecastWeather(data)
         })
 
@@ -104,7 +100,6 @@ const displayForecastWeather = (data) => {
 }
 
 const renderForecast = (array) => {
-    console.log(array)
     const forecastCardEl = document.createElement('section')
     const forecastDateEl = document.createElement('h5')
     const forecastTempEl = document.createElement('p')
@@ -120,7 +115,6 @@ const renderForecast = (array) => {
     forecastCardEl.appendChild(forecastTempEl)
     forecastCardEl.appendChild(forecastWindEl)
     forecastCardEl.appendChild(forecastHumidityEl)
-    console.log(forecastCardEl)
     forecastRowEl.appendChild(forecastCardEl)
 }
 
@@ -136,7 +130,6 @@ const displayHistory = () => {
     }
     const items = document.querySelectorAll('.historyItem')
     if (items) {
-        console.log(items)
         items.forEach(item => {
             item.addEventListener('click', historyBtnClick)
         });

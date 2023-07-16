@@ -55,3 +55,7 @@ button {
     background-color: rgb(23, 23, 87);
     color: white;
 }
+
+#forecastRow {
+    margin-top: 15px
+}
