@@ -102,7 +102,7 @@ const displayCurrentWeather = (data) => {
     const currentWindEl = document.getElementById('currentWind')
     const currentHumidityEl = document.getElementById('currentHumidity')
     currentWeatherEl.style.visibility = 'visible'
-    currentCondImgEl.setAttribute('src', 'https://openweathermap.org/img/wn/' + data.weather.icon + '@2x.png')
+    currentCondImgEl.setAttribute('src', 'https://openweathermap.org/img/wn/' + data.weather[0].icon + '@2x.png')
     currentTempEl.innerHTML = data.main.temp + '&degC';
     currentWindEl.innerHTML = data.wind.speed + ' m/s';
     currentHumidityEl.innerHTML = data.main.humidity + '%';
@@ -130,7 +130,7 @@ const DisplayForecast = (array) => {
     forecastCardEl.setAttribute('class', 'col-6 col-sm-4 col-md-3 col-lg-auto forecastCard')
     let date = dayjs.unix(array.dt).format('DD/MM/YYYY')
     forecastDateEl.innerHTML = date;
-    forecastCondImgEl.setAttribute('src', 'https://openweathermap.org/img/wn/' + array.weather.icon + '@2x.png')
+    forecastCondImgEl.setAttribute('src', 'https://openweathermap.org/img/wn/' + array.weather[0].icon + '@2x.png')
     forecastTempEl.innerHTML = 'Temp: ' + array.main.temp + '&degC';
     forecastWindEl.innerHTML = 'Wind: ' + array.wind.speed + ' m/s';
     forecastHumidityEl.innerHTML = 'Humidity: ' + array.main.humidity + '%';
