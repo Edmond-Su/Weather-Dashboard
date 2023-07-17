@@ -25,11 +25,15 @@ const init = () => {
 const searchHandler = () => {
     // Gets input from search bar and assigns it to a variable
     const cityName = searchInputEl.value;
-    // Renders searched city on screen
-    cityNameEl.innerHTML = cityName;
-    // Runs 2 API Fetch functions using the searched city name
-    apiFetchCurrent(cityName)
-    apiFetchForecast(cityName);
+    if (cityName == '') {
+        console.log('Search bar is empty')
+    } else {
+        // Renders searched city on screen
+        cityNameEl.innerHTML = cityName;
+        // Runs 2 API Fetch functions using the searched city name
+        apiFetchCurrent(cityName);
+        apiFetchForecast(cityName);
+    }
 }
 
 //Function to handle clicks on history buttons
@@ -39,7 +43,7 @@ const historyBtnClick = (event) => {
     const cityName = btnEl.innerHTML;
     cityNameEl.innerHTML = cityName;
     // Runs 2 API Fetch functions using the button city name
-    apiFetchCurrent(cityName)
+    apiFetchCurrent(cityName);
     apiFetchForecast(cityName);
 }
 
@@ -72,30 +76,69 @@ const updateHistory = (city) => {
 const apiFetchCurrent = (city) => {
     const apiURL = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=' + key + '&units=metric';
     fetch(apiURL)
-        .then((response) => {
-            return response.json()
-        })
+        .then((response) => response.json())
         .then((data) => {
-            displayCurrentWeather(data)
+            console.log(data)
+            if (data.cod == 200) {
+                displayCurrentWeather(data)
+                updateHistory(city);
+            } else {
+                renderError(data)
+            }
+
         })
+
 }
 
 // Function to fetch 5 day forecast for the currently searched city from the API and response is given to forecast weather display function
 const apiFetchForecast = (city) => {
     const apiURL = 'https://api.openweathermap.org/data/2.5/forecast?q=' + city + '&appid=' + key + '&units=metric';
-    updateHistory(city);
     fetch(apiURL)
-        .then((response) => {
-            return response.json()
-        })
+        .then((response) => response.json())
         .then((data) => {
-            forecastWeatherHandler(data)
+            if (data.cod == 200) {
+                forecastWeatherHandler(data)
+            }
         })
 
 }
 
+// Function to render error code and message on screen
+const renderError = (data) => {
+    const currentSectionEl = document.getElementById('currentSection')
+    const forecastSectionEl = document.getElementById('forecastSection')
+    const errorCodeEl = document.createElement('h2')
+    const errorDescEl = document.createElement('h3')
+    errorCodeEl.innerHTML = 'Error - ' + data.cod;
+    if (data.cod == 401) {
+        errorDescEl.innerHTML = 'Invalid API key'
+    } else if (data.cod == 404) {
+        errorDescEl.innerHTML = 'City not found.'
+    } else {
+        errorDescEl.innerHTML = 'Unknown error.'
+    }
+    currentSectionEl.style.visibility = 'hidden'
+    forecastSectionEl.style.visibility = 'hidden'
+    currentSectionEl.insertBefore(errorDescEl, currentSectionEl.firstChild)
+    currentSectionEl.insertBefore(errorCodeEl, currentSectionEl.firstChild)
+    errorCodeEl.setAttribute('id', 'errorCode')
+    errorDescEl.setAttribute('id', 'errorDesc')
+    errorCodeEl.style.visibility = 'visible';
+    errorDescEl.style.visibility = 'visible';
+}
+
+
+
 // Function to use the given current weather data and display it on screen for user
 const displayCurrentWeather = (data) => {
+    // Removes error elements from DOM if there are any
+    const errorCodeEl = document.getElementById('errorCode')
+    const errorDescEl = document.getElementById('errorDesc')
+    if (errorCodeEl) {
+        errorCodeEl.remove()
+        errorDescEl.remove()
+    }
+    // Assigns elements to variables and changes their inner html
     const currentWeatherEl = document.getElementById('currentSection')
     const currentCondImgEl = document.getElementById('condImg')
     const currentTempEl = document.getElementById('currentTemp')
@@ -121,6 +164,7 @@ const forecastWeatherHandler = (data) => {
 
 // Function that uses given forecast data and displays it onscreen in a card for the user
 const DisplayForecast = (array) => {
+    const forecastSectionEl = document.getElementById('forecastSection')
     const forecastCardEl = document.createElement('section')
     const forecastDateEl = document.createElement('h5')
     const forecastCondImgEl = document.createElement('img')
@@ -140,6 +184,7 @@ const DisplayForecast = (array) => {
     forecastCardEl.appendChild(forecastWindEl)
     forecastCardEl.appendChild(forecastHumidityEl)
     forecastRowEl.appendChild(forecastCardEl)
+    forecastSectionEl.style.visibility = 'visible'
 }
 
 // Function that displays the search history on screen as buttons for the user

@@ -59,3 +59,7 @@ button {
 #forecastRow {
     margin-top: 15px
 }
+
+#forecastSection {
+    visibility: hidden;
+}
